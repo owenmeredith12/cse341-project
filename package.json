@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/owenmeredith12/cse341-project/issues"
   },
-  "homepage": "https://github.com/owenmeredith12/cse341-project#readme"
+  "homepage": "https://github.com/owenmeredith12/cse341-project#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
