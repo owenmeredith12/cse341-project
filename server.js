@@ -1,8 +1,17 @@
 const express = require('express');
-const app =  express();
+const app = express();
+const mongodb = require('./data/database');
+const port = process.env.PORT || 3000;
 
-const port = process.env.port || 3000;
+app.use(express.json()); // Good practice
+app.use('/', require('./routes')); // Mount all routes
 
-app.use('/', require('./routes'))
-
-app.listen(port, () => {console.log(`running on port ${port}`)})
+mongodb.initDb((err) => {
+    if (err) {
+        console.error(err);
+    } else {
+        app.listen(port, () => {
+            console.log(`✅ Server running on port ${port}`);
+        });
+    }
+});
