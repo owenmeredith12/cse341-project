@@ -1,0 +1,16 @@
+GET http://localhost:3000/users
+
+### get specific user
+GET http://localhost:3000/users/6483ce023f46080356e0c6d8
+
+### create contact
+POST http://localhost:3000/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstname": "test",
+    "lastname": "test",
+    "email": "testtest@test.com",
+    "favoriteColor": "blue",
+    "birthday": "06/19/2000"
+}

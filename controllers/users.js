@@ -3,6 +3,7 @@ const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
+    //#swagger.tags=['Users']
     const result = await mongodb.getDatabase().collection('users').find();
     result.toArray().then((users) => {
         res.setHeader('Content-Type', 'application/json');
@@ -11,6 +12,7 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res) => {
+    //#swagger.tags=['Users']
     console.log("req.params.id:", req.params.id);
     const userId = new ObjectId(req.params.id);
     const result = await mongodb.getDatabase().collection('users').find({_id: userId});
@@ -21,4 +23,59 @@ const getSingle = async (req, res) => {
 
 };
 
-module.exports = {getAll, getSingle}
+const createUser = async (req, res) =>{
+    //#swagger.tags=['Users']
+    const userId = new ObjectId(req.params.id);
+    const user = {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        favoriteColor: req.body.favoriteColor,
+        birthday: req.body.birthday
+    };
+    const response = await mongodb.getDatabase().collection('users').insertOne(user);
+    if(response.acknowledged){
+        res.status(204).send();
+    }else{
+        res.status(500).json(response.error || 'some error occurred');
+    }
+};
+
+const updateUser = async (req, res) =>{
+    //#swagger.tags=['Users']
+    const userId = new ObjectId(req.params.id);
+    const user = {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        favoriteColor: req.body.favoriteColor,
+        birthday: req.body.birthday
+    };
+    const response = await mongodb.getDatabase().collection('users').replaceOne({_id: userId}, user);
+    if(response.modifiedCount > 0){
+        res.status(204).send();
+    }else{
+        res.status(500).json(response.error || 'some error occurred');
+    }
+};
+
+const deleteUser = async (req, res) =>{
+    //#swagger.tags=['Users']
+    const userId = new ObjectId(req.params.id);
+    const user = {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        favoriteColor: req.body.favoriteColor,
+        birthday: req.body.birthday
+    };
+    const response = await mongodb.getDatabase().collection('users').deleteOne({_id: userId});
+    if(response.modifiedCount > 0){
+        res.status(204).send();
+    }else{
+        res.status(500).json(response.error || 'some error occurred');
+    }
+};
+
+
+module.exports = {getAll, getSingle, createUser, updateUser, deleteUser}
